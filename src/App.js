@@ -67,12 +67,13 @@ function App() {
         <Alert alert={notify} />
         <User />
       </>
-    }
-  ]
-  )
+    }])
   return (
     <>
       <RouterProvider router={router} />
+      {/* <Navbar title='textUtils' aboutLink='about us' mode={mode} toggleMode={toggleModeHandel} />
+        <Alert alert={notify} />
+        <TextForm heading='Enter the text' mode={mode} showAlert={showAlert} /> */}
     </>
   );
 }

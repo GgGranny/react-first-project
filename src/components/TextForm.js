@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 
 export default function TextForm(props) {
-    const [text, setText] = useState('enter your text');
+    const [text, setText] = useState('');
     const [email, setEmail] = useState('Your Email');
 
     const handelToUppercase = () => {
@@ -67,26 +67,36 @@ export default function TextForm(props) {
         console.log(newText);
         setText(newText);
     }
+    const handelCopy = () => {
+        const inputField = document.getElementById('textArea');
+        inputField.select();
+        inputField.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(inputField.value);
+        props.showAlert(inputField.value + 'coppied', 'success');
+    }
     return (
         <>
-            <div >
-                <h1>{props.heading}</h1>
-                <div className="form-floating">
-                    <textarea className="form-control" value={text} onChange={handelOnChange} onFocus={handelOnFocus} style={{ backgroundColor: props.mode === 'light' ? 'white' : 'grey', color: props.mode === 'light' ? 'black' : 'white' }}></textarea>
+            <div className='container'>
+                <div>
+                    <h1>{props.heading}</h1>
+                    <div className="form-floating">
+                        <textarea className="form-control" value={text} onChange={handelOnChange} onFocus={handelOnFocus} style={{ backgroundColor: props.mode === 'light' ? 'white' : 'grey', color: props.mode === 'light' ? 'black' : 'white' }} id="textArea"></textarea>
+                    </div>
+                    <button disabled={text.length === 0} className="btn btn-primary mt-3" onClick={handelToUppercase}>To Uppercase</button>
+                    <button disabled={text.length === 0} className="btn btn-primary mt-3 mx-3" onClick={handelToLowercase}>To Uppercase</button>
+                    <button disabled={text.length === 0} className="btn btn-primary mt-3 mx-3" onClick={handelEmail}>Get Email</button>
+                    <button disabled={text.length === 0} className="btn btn-primary mt-3 mx-3" onClick={handelDownload}>Download</button>
+                    <button disabled={text.length === 0} className="btn btn-primary mt-3 mx-3" onClick={handelExtraspacing}>Remove Extra Spacing</button>
+                    <button disabled={text.length === 0} className="btn btn-primary mt-3 mx-3" onClick={handelCopy}>Copy text</button>
                 </div>
-                <button className="btn btn-primary mt-3" onClick={handelToUppercase}>To Uppercase</button>
-                <button className="btn btn-primary mt-3 mx-3" onClick={handelToLowercase}>To Uppercase</button>
-                <button className="btn btn-primary mt-3 mx-3" onClick={handelEmail}>Get Email</button>
-                <button className="btn btn-primary mt-3 mx-3" onClick={handelDownload}>Download</button>
-                <button className="btn btn-primary mt-3 mx-3" onClick={handelExtraspacing}>Remove Extra Spacing</button>
-            </div>
-            <div className="my-3">
-                <h1>your text</h1>
-                <p>{text.split(' ').length} word {text.length} characters</p>
-                <h3>preview</h3>
-                <p>{text.length === 0 ? 'The preview will be here' : text}</p>
-                <h4>Email</h4>
-                <p>{email}</p>
+                <div className="my-3">
+                    <h1>your text</h1>
+                    <p>{text.split(' ').filter((element) => { return element.length !== 0 }).length} word {text.length} characters</p>
+                    <h3>preview</h3>
+                    <p>{text.length === 0 ? 'The preview will be here' : text}</p>
+                    <h4>Email</h4>
+                    <p>{email}</p>
+                </div>
             </div>
         </>
     )
